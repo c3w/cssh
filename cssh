@@ -1,0 +1,50 @@
+#!/bin/sh
+
+###
+## cssh
+## http://github.com/c3w/cssh
+## Purpose: Changes OSX Terminal Profile to n per machine.  Also supports tunneling #currently commented out
+## Create your Terminal profiles, under Terminal Preferences
+## alias ssh="~/bin/cssh"
+
+#TUNNEL_HOST="dev"
+DEFAULT_PROFILE="default"
+PORT="22"
+SUFFIX="mydomain.tld"
+USER="myusername"
+
+function setTerm() {
+HOST_FUNCTION=${1}
+osascript << __EOF__
+        tell app "Terminal" to set current settings of first window to settings set "$HOST_FUNCTION"
+__EOF__
+}
+
+case "${1}" in
+        web*|search*|cache*)
+                HOST_FUNCTION="webserver"
+                ;;
+        jobs*|vpn*)
+                HOST_FUNCTION="admin"
+                ;;
+        dev*)
+                HOST_FUNCTION="development"
+                ;;
+        smtp*)
+                HOST_FUNCTION="mailserver"
+                ;;
+        db*)
+                HOST_FUNCTION="database"
+                ;;
+	*)
+		HOST_FUNCTION="default"
+		SUFFIX=""
+esac
+
+setTerm "${HOST_FUNCTION}"
+	if [ "${TUNNEL_HOST}" ]; then {
+		ssh -t ${USER}@${TUNNEL_HOST} -p ${PORT} "ssh -t root@${*}.${SUFFIX}"
+	} else {
+        	ssh -p ${PORT} ${USER}@${*}.${SUFFIX}
+	}; fi
+setTerm ${DEFAULT_PROFILE}

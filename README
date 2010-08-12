@@ -1,0 +1,19 @@
+cssh v0.1
+ http://github.com/c3w/cssh
+
+Purpose: Changes OSX Terminal Profile to n per machine.  Also supports tunneling #currently commented out
+Create your Terminal profiles, under Terminal Preferences
+alias ssh="~/bin/cssh"
+make sure ~/bin is in your PATH, see ~/.profile
+
+You're a sysadmin, or a developer.  You have tons of windows open but they all look the same!
+
+No Longer!  Utilize your right-brain and colorize your terminal windows by function -
+dev server, webserver, database, etc!  
+
+Need to tunnel? no problem!  Need to have custom users, domain suffixes?  Go for it!
+
+Hint: I use blue for dev, green for web, and red for databases -
+
+:)
+Chas.
